@@ -272,7 +272,7 @@ If you find a security vulnerability, please refer to our [Security Policies and
 
 ## Author
 
-Rapidcat is developed and maintained by [Ferhat Yalçın](https://github.com/ylcnfrht).
+easy-circuit-breaker is developed and maintained by [Ferhat Yalçın](https://github.com/ylcnfrht).
 
 ## License
 

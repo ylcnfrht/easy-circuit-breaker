@@ -1,6 +1,6 @@
 {
   "name": "easy-circuit-breaker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight wrapper around opossum for easier circuit breaker management",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
