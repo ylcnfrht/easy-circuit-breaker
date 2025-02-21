@@ -79,9 +79,7 @@ export class CircuitBreaker {
    * Creates an instance of CircuitBreaker.
    * @param eventHandlers - Event handlers for circuit breaker events.
    */
-  constructor(
-    eventHandlers: EventHandlers = {}
-  ) {
+  constructor(eventHandlers: EventHandlers = {}) {
     this.eventHandlers = eventHandlers;
   }
 
@@ -101,7 +99,7 @@ export class CircuitBreaker {
    * - `resetTimeout` (number, default: 30000): Time (ms) before transitioning to "half-open" state.
    * - `rollingCountTimeout` (number, default: 10000): Time window (ms) for tracking statistics.
    * - `rollingCountBuckets` (number, default: 10): Number of buckets in rollingCountTimeout window.
-   * - `name` (string, default: function name): Custom name for the circuit breaker.
+   * - `name` (string): Custom name for the circuit breaker.
    * - `rollingPercentilesEnabled` (boolean, default: true): Enables percentile calculations.
    * - `capacity` (number, default: Number.MAX_SAFE_INTEGER): Max concurrent requests.
    * - `enabled` (boolean, default: true): Enables circuit breaker on startup.
@@ -131,7 +129,7 @@ export class CircuitBreaker {
       resetTimeout: 30000, // (Default: 30000) Time (ms) before transitioning to "half-open" state.
       rollingCountTimeout: 10000, // (Default: 10000) Time window (ms) for tracking statistics.
       rollingCountBuckets: 10, // (Default: 10) Number of buckets in rollingCountTimeout window.
-      name, // (Default: function name) Custom name for the circuit breaker.
+      name, // Custom name for the circuit breaker.
       rollingPercentilesEnabled: true, // (Default: true) Enables percentile calculations.
       capacity: Number.MAX_SAFE_INTEGER, // (Default: MAX_SAFE_INTEGER) Max concurrent requests.
       enabled: true, // (Default: true) Enables circuit breaker on startup.
@@ -174,7 +172,6 @@ export class CircuitBreaker {
       'cacheHit',
       'cacheMiss',
     ] as const;
-  
 
     events.forEach((event) => {
       circuitBreaker.on(event as any, () => {
@@ -194,16 +191,20 @@ export class CircuitBreaker {
    * @throws Error if the request function fails.
    */
   async execute<T>(params: CircuitBreakerParams<T>): Promise<T> {
-    const { name, requestFn, fallbackFn, options, args = [] } = params;
+    const { level, name, requestFn, fallbackFn, options, args = [] } = params;
     this.validateInput(name, requestFn, fallbackFn);
+
+    const circuitBreakerName = level ? `${level}::${name}` : name;
 
     const circuitBreaker = this.createCircuitBreaker(
       requestFn,
       options || {},
-      name
+      circuitBreakerName
     );
 
-    circuitBreaker.fallback( fallbackFn || this.defaultFallback(name));
+    circuitBreaker.fallback(
+      fallbackFn || this.defaultFallback(circuitBreakerName)
+    );
 
     try {
       return (await circuitBreaker.fire(...args)) as T;
