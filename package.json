@@ -1,0 +1,31 @@
+{
+  "name": "easy-circuit-breaker",
+  "version": "1.0.0",
+  "description": "A lightweight wrapper around opossum for easier circuit breaker management",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ylcnfrht/easy-circuit-breaker.git"
+  },
+  "keywords": [
+    "circuit breaker",
+    "opossum",
+    "resilience",
+    "timeout",
+    "fallback"
+  ],
+  "author": "Ferhat Yalçın",
+  "license": "MIT",
+  "dependencies": {
+    "@types/opossum": "^8.1.8",
+    "opossum": "^8.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

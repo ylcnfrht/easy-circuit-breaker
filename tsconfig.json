@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true, // .d.ts dosyası oluşturulması için
+    "declarationDir": "./dist", // declaration dosyasının hangi klasöre yazılacağını belirler
+    "outDir": "./dist", // Derlenen JavaScript dosyasının çıktısı
+    "rootDir": "./src", // Kaynak dosyalarının bulunduğu dizin
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "target": "ES6",
+    "strict": true
+  }
+}
